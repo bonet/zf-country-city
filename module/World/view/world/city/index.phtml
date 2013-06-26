@@ -5,6 +5,12 @@ $title = 'Cities';
 $this->headTitle($title);
 ?>
 <h1><?php echo $this->escapeHtml($title); ?></h1>
+<br />
+<p>
+    Go To:&nbsp;&nbsp;
+    <a href="<?php echo $this->url('world', array('action'=>'index'));?>">"World"</a>
+</p>
+<br />
 <p>
     <a href="<?php echo $this->url('city', array('action'=>'add'));?>">Add a New City</a>
 </p>

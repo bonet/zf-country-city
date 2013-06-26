@@ -11,6 +11,8 @@ class AreaForm extends Form
         $cities = $cityTable->fetchAll();
         $cityArray = Array();
         
+        $cityArray[""] = "- Select City -";
+        
         foreach($cities as $city){
             $cityArray[$city["id"]] = $city["name"] . " -- " . $city["country_name"];
         }

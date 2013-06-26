@@ -12,12 +12,15 @@ class AreaTable
         $this->tableGateway = $tableGateway;
     }
 
+    /**
+     * Grabs all data from `area` table
+     */
     public function fetchAll()
     {
         
         $adapter = $this->tableGateway->getAdapter();
         
-        $sql = "SELECT area.id, area.name, area.city_id, city.name AS city_name, country.name AS country_name, country.abbr AS country_abbr ";
+        $sql = "SELECT area.id, area.name, area.city_id, city.name AS city_name, city.country_id, country.name AS country_name, country.abbr AS country_abbr ";
         $sql .= " FROM area LEFT JOIN city ON area.city_id = city.id ";
         $sql .= " LEFT JOIN country ON city.country_id = country.id ORDER BY city.country_id, area.city_id";
 
@@ -26,6 +29,47 @@ class AreaTable
         
         return $results;
 
+    }
+    
+    /**
+     * Grabs all data from `country`, `city`, `area` tables, and formats them in JSON 
+     */
+    public function fetchAllJSON()
+    {
+        $worldArray = Array();
+        
+        $adapter = $this->tableGateway->getAdapter();
+        
+        $sql = "SELECT id, name FROM country ORDER BY id ASC";
+        $stmt = $adapter->query($sql);
+        $countries = $stmt->execute();
+        
+        foreach($countries as $country) {
+            $country_id = (int) $country["id"];
+            $sql2 = "SELECT id, name FROM city WHERE country_id={$country_id} ORDER BY id ASC";
+            $stmt2 = $adapter->query($sql2);
+            $cities = $stmt2->execute();
+            
+            $cityArray = Array();
+            
+            foreach($cities as $city) {
+                $city_id = (int) $city["id"];
+                $sql3 = "SELECT id, name FROM area WHERE city_id={$city_id} ORDER BY id ASC";
+                $stmt3 = $adapter->query($sql3);
+                $areas = $stmt3->execute();
+                
+                $areaArray = Array();
+                
+                foreach($areas as $area) {
+                    $areaArray[$area['id']] = array("name"=>$area["name"]);
+                }
+                
+                $cityArray[$city['id']] = array("name"=>$city["name"], "areas"=>$areaArray);
+            }
+            $worldArray[$country['id']] = array("name"=>$country["name"], "cities"=>$cityArray);
+        }
+        
+        return json_encode($worldArray);
     }
 
     public function getArea($id)

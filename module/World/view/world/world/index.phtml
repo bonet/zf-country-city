@@ -1,1 +1,31 @@
-test
+<?php
+// module/Album/view/album/album/index.phtml:
+
+$title = 'World';
+$this->headTitle($title);
+?>
+
+<script type="text/javascript">
+    var countryCityAreaJson = '<?php echo $this->countryCityAreaJson ?>';
+</script>
+
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+<br />
+<p>
+    Go To:&nbsp;&nbsp;
+    <a href="<?php echo $this->url('country', array('action'=>'index'));?>">"Countries"</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+    <a href="<?php echo $this->url('city', array('action'=>'index'));?>">"Cities"</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+    <a href="<?php echo $this->url('area', array('action'=>'index'));?>">"Areas"</a>
+</p>
+<br />
+
+<form id="world-form" method="post">
+    <select id="country-select" name="country">
+        <option value="">- Select Country -</option>
+        <?php foreach ($this->countries as $key => $country): ?>
+            <option value="<?php echo $country->id; ?>"><?php echo $country->name; ?></option>
+        <?php endforeach;?>
+    </select>
+</div>
+
+<script type="text/javascript" src="/js/select.js"></script>

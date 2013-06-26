@@ -11,6 +11,8 @@ class CityForm extends Form
         $countries = $countryTable->fetchAll();
         $countryArray = Array();
         
+        $countryArray[""] = "- Select Country -";
+        
         foreach($countries as $country){
             $countryArray[$country->id] = $country->name;
         }
