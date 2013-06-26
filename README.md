@@ -1,1 +1,1 @@
-Zend Framework 2 Sample (Country -> City Selection)
+Zend Framework 2 Sample (Country -> City -> Area Selection)

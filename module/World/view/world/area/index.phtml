@@ -1,0 +1,34 @@
+<?php
+// module/Album/view/album/album/index.phtml:
+
+$title = 'Areas';
+$this->headTitle($title);
+?>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+<p>
+    <a href="<?php echo $this->url('area', array('action'=>'add'));?>">Add a New Area</a>
+</p>
+
+<table class="table">
+<tr>
+    <th>Country Name</th>
+    <th>Country Abbreviation</th>
+    <th>City Name</th>
+    <th>Area Name</th>
+    <th>&nbsp;</th>
+</tr>
+<?php foreach ($areas as $area) : ?>
+<tr>
+    <td><?php echo $this->escapeHtml($area["country_name"]);?></td>
+    <td><?php echo $this->escapeHtml($area["country_abbr"]);?></td>
+    <td><?php echo $this->escapeHtml($area["city_name"]);?></td>
+    <td><?php echo $this->escapeHtml($area["name"]);?></td>
+    <td>
+        <a href="<?php echo $this->url('area',
+            array('action'=>'edit', 'id' => $area["id"]));?>">Edit</a>
+        <a href="<?php echo $this->url('area',
+            array('action'=>'delete', 'id' => $area["id"]));?>">Delete</a>
+    </td>
+</tr>
+<?php endforeach; ?>
+</table>
